@@ -7,3 +7,4 @@ Laboratórios práticos:
 - [LAB2](https://github.com/VictorGFL/Microsoft-Power-BI-Para-Business-Intelligence-e-Data-Science-Data-Science-Academy/tree/main/LAB2)
 - [LAB3](https://github.com/VictorGFL/Microsoft-Power-BI-Para-Business-Intelligence-e-Data-Science-Data-Science-Academy/tree/main/LAB3)
 - [LAB4](https://github.com/VictorGFL/Microsoft-Power-BI-Para-Business-Intelligence-e-Data-Science-Data-Science-Academy/tree/main/LAB4)
+- [LAB5](https://github.com/VictorGFL/Microsoft-Power-BI-Para-Business-Intelligence-e-Data-Science-Data-Science-Academy/tree/main/LAB5)
