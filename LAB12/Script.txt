@@ -1,0 +1,34 @@
+let
+    Fonte = Csv.Document(File.Contents("C:\Users\Victor\OneDrive\Documentos pessoais\Power BI\LAB12\Clientes.csv"),[Delimiter=",", Columns=10, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+
+    #"Usar a Primeira Linha como Cabeçalho" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+
+    #"Alterar Tipo" = Table.TransformColumnTypes(#"Usar a Primeira Linha como Cabeçalho",{{"ID_Cliente", type text}, {"Idade", type text}, {"Peso", Int64.Type}, {"Altura", Int64.Type}, {"Estado Civil", type text}, {"Estado", type text}, {"Limite de Credito", Int64.Type}, {"Valor Desconto", Int64.Type}, {"Valor Compra", Int64.Type}, {"Tipo de Cliente", type text}}),
+
+// Substituindo valores ausentes
+    #"Valor substituido" = Table.ReplaceValue(#"Alterar Tipo","?", "45", Replacer.ReplaceText,{"Idade"}),
+
+// Ajustando o tipo de variável
+    #"Tipo ajustado" = Table.TransformColumnTypes(#"Valor substituido", {{"Idade", Int64.Type}}),
+
+// Removendo coluna
+    #"Coluna removida" = Table.RemoveColumns(#"Tipo ajustado", {"Estado Civil"}),
+
+// Adicionando coluna
+    #"Coluna adicionada" = Table.AddColumn(#"Coluna removida", "Valor final", each [Valor Compra] - [Valor Desconto]),
+
+// Divindo coluna
+    #"Coluna dividida pela posição" = Table.SplitColumn(#"Coluna adicionada", "ID_Cliente", Splitter.SplitTextByPositions({0, 4}, false), {"ID_Cliente.1", "ID_Cliente.2"}),
+    #"Coluna dividida" = Table.TransformColumnTypes(#"Coluna dividida pela posição", {{"ID_Cliente.2", Int64.Type}}),
+
+// Renomeando coluna
+    #"Colunas renomeada" = Table.RenameColumns( #"Coluna dividida", {{"ID_Cliente.1", "Código"}, {"ID_Cliente.2", "ID"}}),
+
+// Condicionando coluna
+    #"Coluna condicionada adicionada" = Table.AddColumn(#"Colunas renomeada", "% de Desconto especial", each if [Tipo de Cliente] = "Bronze" then 5 else if [Tipo de Cliente] = "Prata" then 10 else if [Tipo de Cliente] = "Ouro" then 15 else if [Tipo de Cliente] = "Diamante" then 20 else 0),
+
+// Transformando dados em logarítmicos
+    #"Logaritmo de base 10 calculado" = Table.TransformColumns(#"Coluna condicionada adicionada", {{"Limite de Credito", Number.Log10, type number}})
+
+in
+    #"Logaritmo de base 10 calculado"
