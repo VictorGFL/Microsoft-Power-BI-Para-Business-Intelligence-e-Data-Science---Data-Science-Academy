@@ -1,0 +1,45 @@
+SELECT Nome_Produto, 
+        ROUND(MIN(Valor_Venda), 2) AS Valor_Minimo , 
+        ROUND(MAX(Valor_Venda), 2) AS Valor_Maximo, 
+        ROUND(AVG(Valor_Venda), 2) AS Valor_Médio, 
+        ROUND(SUM(Valor_Venda), 2) AS Valor_Total,
+        COUNT(Valor_Venda) AS Contagem,
+        Ano
+FROM TB_DSA_VENDAS, TB_DSA_PRODUTOS, TB_DSA_PEDIDOS
+WHERE TB_DSA_VENDAS.Produto = TB_DSA_PRODUTOS.ID_Produto 
+AND TB_DSA_VENDAS.Pedido = TB_DSA_PEDIDOS.ID_Pedido 
+GROUP BY Produto, Ano
+ORDER BY Contagem DESC;
+
+___________________________________________________________________________
+
+INSERT INTO TB_DSA_CLIENTES (
+                                ID_Cliente,
+                                Nome_Cliente,
+                                Cidade,
+                                Estado,
+                                Pais,
+                                Regiao,
+                                Mercado,
+                                Segmento
+                            )
+                            VALUES (
+                                '1000',
+                                'Victor',
+                                'Campinas',
+                                'SP',
+                                'Brazil',
+                                'Teste',
+                                'TESTE',
+                                'Segmento'
+                            );
+___________________________________________________________________________
+
+UPDATE TB_DSA_CLIENTES
+   SET Nome_Cliente = 'Nome_Cliente'
+ WHERE ID_Cliente = '1000';
+___________________________________________________________________________
+
+DELETE FROM TB_DSA_CLIENTES
+      WHERE ID_Cliente = '1000';
+___________________________________________________________________________
